@@ -1,0 +1,25 @@
+{
+    "require": {
+        "slim/slim": "^4.9",
+        "slim/http": "^1.2",
+        "slim/psr7": "^1.5",
+        "firebase/php-jwt": "^5.5",
+        "vlucas/phpdotenv": "^5.4",
+        "doctrine/annotations": "^1.13",
+        "phpmailer/phpmailer": "^6.6",
+        "symfony/asset": "^5.4",
+        "symfony/cache": "^5.4",
+        "slim/twig-view": "^3.3",
+        "doctrine/orm": "^2.12",
+        "google/cloud-storage": "^1.28",
+        "dompdf/dompdf": "^2.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true
+        },
+        "platform": {
+            "php": "7.4"
+        }
+    }
+}
