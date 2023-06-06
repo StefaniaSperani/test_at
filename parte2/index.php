@@ -5,7 +5,10 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
 use Slim\Views\Twig;
 use Slim\Views\TwigMiddleware;
+use App\WidgetController;
 
+
+include "config.inc.php";
 
 require __DIR__ . '/vendor/autoload.php';
 
@@ -26,6 +29,29 @@ $app->add(TwigMiddleware::create($app, $twig));
 //     return $response;
 // });
 
+// Service factory for the ORM
+// $container['db'] = function ($container) {
+//     $capsule = new \Illuminate\Database\Capsule\Manager;
+//     $capsule->addConnection($container['settings']['db']);
+
+//     $capsule->setAsGlobal();
+//     $capsule->bootEloquent();
+
+//     return $capsule;
+// };
+
+
+// $container[controllers\WidgetController::class] = function ($c) {
+//     $view = $c->get('view');
+//     $logger = $c->get('logger');
+//     $table = $c->get('db')->table('table_name');
+//     return new \controllers\WidgetController($view, $logger, $table);
+// };
+
+
+
 include "controllers/HomeController.php";
+include "controllers/OperatoriController.php";
+//include "controllers/WidgetController.php";
 
 $app->run();

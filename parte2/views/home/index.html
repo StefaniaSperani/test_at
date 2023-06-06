@@ -1,5 +1,22 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<h1>Prova</h1>
+<div class="app py-4">
+    <form id="login-form" method="POST">
+        <div class="mb-3">
+            <label for="username" class="form-label">User ID</label>
+            <input type="text" class="form-control" id="username" name="username" value="{{username}}" required>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary" value="Login" name="submit">Accedi</button>
+        {% if error %}
+        <div id="login-message" class="mt-2">
+            {{error}}
+        </div>
+        {% endif %}
+    </form>
+</div>
 {% endblock %}

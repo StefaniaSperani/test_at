@@ -1,0 +1,69 @@
+body {
+  background-image: url(images/prism.svg);
+}
+
+.app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+button a {
+  text-decoration: none;
+  color: white;
+}
+
+tr {
+  vertical-align: middle;
+}
+
+form {
+  width: auto;
+  height: auto;
+  background-color: rgba(255, 255, 255, 0.6);
+  border: 1px solid black;
+  border-radius: 20px;
+  box-shadow: 1px 1px 21px 15px #fff;
+  padding: 50px;
+}
+
+.form-control:focus {
+  box-shadow: none;
+  border-color: transparent;
+}
+
+body {
+  background-image: url(images/prism.svg);
+}
+
+.app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+button a {
+  text-decoration: none;
+  color: white;
+}
+
+tr {
+  vertical-align: middle;
+}
+
+form {
+  width: auto;
+  height: auto;
+  background-color: rgba(255, 255, 255, 0.6);
+  border: 1px solid black;
+  border-radius: 20px;
+  box-shadow: 1px 1px 21px 15px #fff;
+  padding: 50px;
+}
+
+.form-control:focus {
+  box-shadow: none;
+  border-color: transparent;
+}/*# sourceMappingURL=style.css.map */
