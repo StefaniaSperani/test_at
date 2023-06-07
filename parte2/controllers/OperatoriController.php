@@ -15,26 +15,29 @@ class OperatoriController
         // return $response;
     }
 
-    // public function operators(ServerRequestInterface $request, ResponseInterface $response, array $args)
-    // {
-    //     // list("name" => $name) = $args;
+    public function operators(ServerRequestInterface $request, ResponseInterface $response, array $args)
+    {
+        $conn = getDbConn();
 
-    //     // $users = [
-    //     //     "Stefania",
-    //     //     "Alberto"
-    //     // ];
+        $sql = "SELECT * FROM operators";
+        $result = mysqli_query($conn, $sql);
+        if ($result) {
+            $operators = array();
 
-    //     $view = Twig::fromRequest($request);
-    //     $response->getBody()->write("Hello!");
-    //     return $view->render($response, 'home/operators.html', [
+            while ($row = mysqli_fetch_assoc($result)) {
+                $operators[] = $row;
+            }
+            $view = Twig::fromRequest($request);
+            return $view->render($response, 'operatori/index.html', ['operators' => $operators]);
+        } else {
+            $response->getBody()->write("Errore nella query");
+            return $response->withStatus(500);
+        }
 
-    //     ]);
-
-    //     // $response->getBody()->write("Hello {$name}!");
-    //     // return $response;
-    // }
+    }
 }
 
 
 
-$app->get("/operatori", [OperatoriController::class, "index"])->setName("operatori.index");
+// $app->get("/operatori", [OperatoriController::class, "index"])->setName("operatori.index");
+$app->get("/operatori", [OperatoriController::class, "operators"])->setName("operatori.index");
