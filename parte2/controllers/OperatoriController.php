@@ -7,14 +7,6 @@ use Slim\Views\Twig;
 
 class OperatoriController
 {
-    public function index(ServerRequestInterface $request, ResponseInterface $response, array $args)
-    {
-        $view = Twig::fromRequest($request);
-        return $view->render($response, 'operatori/index.html', []);
-        // $response->getBody()->write("Hello world!");
-        // return $response;
-    }
-
     public function operators(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $conn = getDbConn();
@@ -28,16 +20,25 @@ class OperatoriController
                 $operators[] = $row;
             }
             $view = Twig::fromRequest($request);
-            return $view->render($response, 'operatori/index.html', ['operators' => $operators]);
+            return $view->render($response, 'operatori/operators.html', ['operators' => $operators]);
         } else {
             $response->getBody()->write("Errore nella query");
             return $response->withStatus(500);
         }
 
     }
+
+    public function add(ServerRequestInterface $request, ResponseInterface $response, array $args)
+    {
+        $conn = getDbConn();
+
+        $view = Twig::fromRequest($request);
+        return $view->render($response, 'operatori/add.html', []);
+    }
+
 }
 
 
 
-// $app->get("/operatori", [OperatoriController::class, "index"])->setName("operatori.index");
 $app->get("/operatori", [OperatoriController::class, "operators"])->setName("operatori.index");
+$app->get("/operatori/add", [OperatoriController::class, "add"]);
