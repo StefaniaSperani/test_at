@@ -8,6 +8,8 @@ use Slim\Routing\RouteContext;
 
 class OperatoriController
 {
+
+    // Lista ciclata che si vede appena loggati
     public function operators(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $conn = getDbConn();
@@ -29,6 +31,7 @@ class OperatoriController
 
     }
 
+    // Render della pagina di aggiunta dell'operatore
     public function add(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
 
@@ -37,7 +40,7 @@ class OperatoriController
 
     }
 
-
+    // Funzione che serve per aggiungere gli operatori nel db
     public function submit(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         if ($request->getMethod() === 'POST' && $_POST['submit']) {
@@ -61,7 +64,7 @@ class OperatoriController
                 $response->getBody()->write('<div class="text-center text-danger fs-3 mt-3"> Errore durante l\'aggiunta dell\'operatore: </div>' . $conn->error);
             }
 
-
+            // Premuto il submit vengono reindirizzati alla pagina principale(la lista degli operatori)
             $routeParser = RouteContext::fromRequest($request)->getRouteParser();
             $urlOperatori = $routeParser->urlFor("operatori.index");
             return $response
@@ -70,6 +73,14 @@ class OperatoriController
         }
     }
 
+    // Pagina di render per la modifica dell'utente
+    public function edit(ServerRequestInterface $request, ResponseInterface $response, array $args)
+    {
+
+        $view = Twig::fromRequest($request);
+        return $view->render($response, 'operatori/edit.html', []);
+
+    }
 }
 
 
@@ -77,3 +88,4 @@ class OperatoriController
 $app->get("/operatori", [OperatoriController::class, "operators"])->setName("operatori.index");
 $app->get("/operatori/add", [OperatoriController::class, "add"]);
 $app->post("/operatori/add", [OperatoriController::class, "submit"]);
+$app->get("/operatori/edit", [OperatoriController::class, "edit"]);

@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="app d-flex flex-column align-items-center py-4">
+    <h2 class="text-uppercase">Modifica dati</h2>
+    <form id="edit-form" method="post">
+        <div class="mb-3">
+            <label for="name" class="form-label">Nome</label>
+            <input type="text" class="form-control" id="name" name="nome">
+        </div>
+        <div class="mb-3">
+            <label for="lastname" class="form-label">Cognome</label>
+            <input type="text" class="form-control" id="lastname" name="cognome">
+        </div>
+        <div class="mb-3">
+            <!-- <label for="job" class="form-label">Mansione</label>
+            <input type="text" class="form-control" id="job" name="mansione"> -->
+            <p>Mansione</p>
+            <select name="mansione">
+                <option value="" selected>Scegli mansione</option>
+                <option value="SuperAdmin">SuperAdmin</option>
+                <option value="Amministratore">Amministratore</option>
+                <option value="Impiegato">Impiegato</option>
+            </select>
+        </div>
+        <h4>Stato:</h4>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="stato" id="flexRadioDefault1" value="true">
+            <label class="form-check-label" for="flexRadioDefault1">
+                Attivo
+            </label>
+        </div>
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="radio" name="stato" id="flexRadioDefault2" value="false" checked>
+            <label class="form-check-label" for="flexRadioDefault2">
+                Non attivo
+            </label>
+        </div>
+        <button type="submit" class="btn btn-primary" name="submit">Modifica</button>
+        <button class='btn btn-danger'><a href='operators.php'>Indietro</a></button>
+    </form>
+</div>
+
+{% endblock %}
