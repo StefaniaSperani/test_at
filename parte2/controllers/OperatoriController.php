@@ -57,11 +57,11 @@ class OperatoriController
 
             $sql = "INSERT INTO operators (nome, cognome, mansione, username, password, stato) VALUES ('$nome', '$cognome', '$mansione', '$username', '$password', '$statoInt')";
 
-            if ($conn->query($sql) === true) {
-                $response->getBody()->write('<div class="text-center text-danger fs-3 mt-3"> Operatore aggiunto con successo! </div>');
-            } else {
-                $response->getBody()->write('<div class="text-center text-danger fs-3 mt-3"> Errore durante l\'aggiunta dell\'operatore: </div>' . $conn->error);
-            }
+            // if ($conn->query($sql) === true) {
+            //     $response->getBody()->write('<div class="text-center text-danger fs-3 mt-3"> Operatore aggiunto con successo! </div>');
+            // } else {
+            //     $response->getBody()->write('<div class="text-center text-danger fs-3 mt-3"> Errore durante l\'aggiunta dell\'operatore: </div>' . $conn->error);
+            // }
 
             // Premuto il submit vengono reindirizzati alla pagina principale(la lista degli operatori)
             $routeParser = RouteContext::fromRequest($request)->getRouteParser();
@@ -116,11 +116,11 @@ class OperatoriController
 
         $result = mysqli_query($conn, $sql);
 
-        if ($result) {
-            $response->getBody()->write('<div class="text-center text-danger fs-3 mt-3"> Operatore modificato con successo! </div>');
-        } else {
-            $response->getBody()->write('<div class="text-center text-danger fs-3 mt-3"> Errore durante la modifica dell\'operatore: </div>' . $conn->error);
-        }
+        // if ($result) {
+        //     $response->getBody()->write('<div class="text-center text-danger fs-3 mt-3"> Operatore modificato con successo! </div>');
+        // } else {
+        //     $response->getBody()->write('<div class="text-center text-danger fs-3 mt-3"> Errore durante la modifica dell\'operatore: </div>' . $conn->error);
+        // }
 
         // Premuto il submit vengono reindirizzati alla pagina principale(la lista degli operatori)
         $routeParser = RouteContext::fromRequest($request)->getRouteParser();
