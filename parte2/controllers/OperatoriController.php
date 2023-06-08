@@ -98,36 +98,38 @@ class OperatoriController
     }
 
     // Funzione che serve per la modifica dell'operatore
-    public function editSubmit(ServerRequestInterface $request, ResponseInterface $response, array $args)
+    public function editSubmit(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        if ($request->getMethod() === 'POST' && $_POST['submit']) {
-            $conn = getDbConn();
+        //if ($request->getMethod() === 'POST' && $_POST['submit']) {
+        //Questo if non ti serve...la richiesta è già mappata in POST
 
-            $id = $args['id'];
-            $nome = $request->getParsedBody()['nome'];
-            $cognome = $request->getParsedBody()['cognome'];
-            $mansione = $request->getParsedBody()['mansione'];
-            $stato = $request->getParsedBody()['stato'];
-            $statoInt = $stato === 'true' ? 'Attivo' : 'Non attivo';
+        $conn = getDbConn();
 
-            $sql = "UPDATE operators SET nome='$nome', cognome='$cognome', mansione='$mansione', stato='$statoInt' WHERE id='$id'";
+        $id = $args['id'];
+        $nome = $request->getParsedBody()['nome'];
+        $cognome = $request->getParsedBody()['cognome'];
+        $mansione = $request->getParsedBody()['mansione'];
+        $stato = $request->getParsedBody()['stato'];
+        $statoInt = $stato === 'true' ? 'Attivo' : 'Non attivo';
 
-            $result = mysqli_query($conn, $sql);
+        $sql = "UPDATE operators SET nome='$nome', cognome='$cognome', mansione='$mansione', stato='$statoInt' WHERE id='$id'";
 
-            if ($result) {
-                $response->getBody()->write('<div class="text-center text-danger fs-3 mt-3"> Operatore modificato con successo! </div>');
-            } else {
-                $response->getBody()->write('<div class="text-center text-danger fs-3 mt-3"> Errore durante la modifica dell\'operatore: </div>' . $conn->error);
-            }
+        $result = mysqli_query($conn, $sql);
 
-            // Premuto il submit vengono reindirizzati alla pagina principale(la lista degli operatori)
-            $routeParser = RouteContext::fromRequest($request)->getRouteParser();
-            $urlOperatori = $routeParser->urlFor("operatori.index");
-            return $response
-                ->withStatus(302)
-                ->withHeader("Location", $urlOperatori);
-
+        if ($result) {
+            $response->getBody()->write('<div class="text-center text-danger fs-3 mt-3"> Operatore modificato con successo! </div>');
+        } else {
+            $response->getBody()->write('<div class="text-center text-danger fs-3 mt-3"> Errore durante la modifica dell\'operatore: </div>' . $conn->error);
         }
+
+        // Premuto il submit vengono reindirizzati alla pagina principale(la lista degli operatori)
+        $routeParser = RouteContext::fromRequest($request)->getRouteParser();
+        $urlOperatori = $routeParser->urlFor("operatori.index");
+        return $response
+            ->withStatus(302)
+            ->withHeader("Location", $urlOperatori);
+
+        //}
     }
 }
 
