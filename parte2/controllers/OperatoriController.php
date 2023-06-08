@@ -140,5 +140,5 @@ $app->get("/operatori", [OperatoriController::class, "operators"])->setName("ope
 $app->get("/operatori/add", [OperatoriController::class, "add"]);
 $app->post("/operatori/add", [OperatoriController::class, "submit"]);
 // Pagina di modifica operatore
-$app->get("/operatori/edit", [OperatoriController::class, "edit"]);
-$app->post("/operatori/edit", [OperatoriController::class, "editSubmit"]);
+$app->get("/operatori/{id}/edit", [OperatoriController::class, "edit"]);
+$app->post("/operatori/{id}/edit", [OperatoriController::class, "editSubmit"]);
