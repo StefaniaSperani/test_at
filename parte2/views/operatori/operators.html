@@ -28,7 +28,7 @@
                         <td>{{ operator.mansione}}</td>
                         <td>{{ operator.username}}</td>
                         <td>{{ operator.stato}}</td>
-                        <td><button class="btn btn-danger"><a href="operatori/edit"> Modifica </a></button></td>
+                        <td><a class="btn btn-danger" href="operatori/edit?id={{operator.id}}">Modifica</a></td>                          
                     </tr>
                 {% endfor %}
             {% else %}
@@ -44,4 +44,5 @@
 <script>
 
 </script>
+
 {% endblock %}

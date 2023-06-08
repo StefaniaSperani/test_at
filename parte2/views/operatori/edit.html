@@ -7,18 +7,18 @@
     <form id="edit-form" method="post">
         <div class="mb-3">
             <label for="name" class="form-label">Nome</label>
-            <input type="text" class="form-control" id="name" name="nome">
+            <input type="text" class="form-control" id="name" name="nome" value="{{ user.nome }}">
         </div>
         <div class="mb-3">
             <label for="lastname" class="form-label">Cognome</label>
-            <input type="text" class="form-control" id="lastname" name="cognome">
+            <input type="text" class="form-control" id="lastname" name="cognome" value="{{ user.cognome }}">
         </div>
         <div class="mb-3">
             <!-- <label for="job" class="form-label">Mansione</label>
             <input type="text" class="form-control" id="job" name="mansione"> -->
             <p>Mansione</p>
             <select name="mansione">
-                <option value="" selected>Scegli mansione</option>
+                <option value="value="{{ user.mansione }}"" selected>Scegli mansione</option>
                 <option value="SuperAdmin">SuperAdmin</option>
                 <option value="Amministratore">Amministratore</option>
                 <option value="Impiegato">Impiegato</option>
@@ -38,7 +38,7 @@
             </label>
         </div>
         <button type="submit" class="btn btn-primary" name="submit">Modifica</button>
-        <button class='btn btn-danger'><a href='operators.php'>Indietro</a></button>
+        <button class='btn btn-danger'><a href='operatori'>Indietro</a></button>
     </form>
 </div>
 
