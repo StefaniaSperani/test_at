@@ -16,6 +16,7 @@
                 <th scope="col">Username</th>
                 <th scope="col">Stato</th>
                 <th scope="col">Modifica</th>
+                <th scope="col">Elimina</th>
             </tr>
         </thead>
         <tbody>
@@ -28,7 +29,9 @@
                         <td>{{ operator.mansione}}</td>
                         <td>{{ operator.username}}</td>
                         <td>{{ operator.stato}}</td>
-                        <td><a class="btn btn-danger" href="operatori/{{operator.id}}/edit">Modifica</a></td>                          
+                        <td><a class="btn btn-primary" href="operatori/{{operator.id}}/edit">Modifica</a></td>                          
+                        <td><a class="btn btn-danger deleteButton" data-id="{{operator.id}}"><strong>X</strong></a></td>
+                        
                     </tr>
                 {% endfor %}
             {% else %}
@@ -41,7 +44,37 @@
 {% endblock %}
 
 {% block footerScripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script>
+// il flusso è il seguente:
+// - clicco sul pulsante elimina
+// - con ajax chiamo un endpoint mappato con delete
+// - l'endpoint deve restituire un oggetto json con l'esito della richiesta
+// - il client, in caso di esito positivo ricarica la pagina
+
+$(document).ready(function (){
+    $('.deleteButton').on('click', function() {
+        let id = $(this).data("id");
+        let url = "operatori/" + id;
+    $.ajax({
+        url: url,
+        type: 'DELETE',
+        success: function(response) {
+            if (response.success) {
+                    alert(response.message);
+                } else {
+                    alert(response.message);
+                }
+        location.reload();
+    },
+    error: function(xhr, status, error) {
+        alert('Si è verificato un errore durante l\'eliminazione della risorsa:', error);
+    }
+        });
+});
+});
+
+
 
 </script>
 

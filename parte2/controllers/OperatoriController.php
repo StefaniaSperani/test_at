@@ -57,11 +57,11 @@ class OperatoriController
 
             $sql = "INSERT INTO operators (nome, cognome, mansione, username, password, stato) VALUES ('$nome', '$cognome', '$mansione', '$username', '$password', '$statoInt')";
 
-            // if ($conn->query($sql) === true) {
-            //     $response->getBody()->write('<div class="text-center text-danger fs-3 mt-3"> Operatore aggiunto con successo! </div>');
-            // } else {
-            //     $response->getBody()->write('<div class="text-center text-danger fs-3 mt-3"> Errore durante l\'aggiunta dell\'operatore: </div>' . $conn->error);
-            // }
+            if ($conn->query($sql) === true) {
+                $response->getBody()->write('<div class="text-center text-danger fs-3 mt-3"> Operatore aggiunto con successo! </div>');
+            } else {
+                $response->getBody()->write('<div class="text-center text-danger fs-3 mt-3"> Errore durante l\'aggiunta dell\'operatore: </div>' . $conn->error);
+            }
 
             // Premuto il submit vengono reindirizzati alla pagina principale(la lista degli operatori)
             $routeParser = RouteContext::fromRequest($request)->getRouteParser();
@@ -98,7 +98,7 @@ class OperatoriController
     }
 
     // Funzione che serve per la modifica dell'operatore
-    public function editSubmit(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function editSubmit(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         //if ($request->getMethod() === 'POST' && $_POST['submit']) {
         //Questo if non ti serve...la richiesta è già mappata in POST
@@ -131,6 +131,28 @@ class OperatoriController
 
         //}
     }
+
+    //Funzione per cancellare l'utente
+    public function delete(ServerRequestInterface $request, ResponseInterface $response, array $args)
+    {
+
+        $conn = getDbConn();
+        $id = $args['id'];
+        $sql = "DELETE FROM operators WHERE id='$id'";
+
+        if ($conn->query($sql) === TRUE) {
+            $data = ['success' => true, 'message' => 'Eliminazione completata con successo.'];
+        } else {
+            $data = ['error' => true, 'message' => 'Impossibile completare l\'eliminazione.'];
+        }
+
+        $payload = json_encode($data);
+        $response->getBody()->write($payload);
+        return $response
+            ->withHeader("Content-Type", "application/json")
+            ->withStatus(200);
+    }
+
 }
 
 
@@ -138,9 +160,12 @@ class OperatoriController
 
 // Pagina principale con la lista degli operatori
 $app->get("/operatori", [OperatoriController::class, "operators"])->setName("operatori.index");
+$app->delete("/operatori/{id}", [OperatoriController::class, 'delete']);
+
 // Pagina di aggiunta operatore
 $app->get("/operatori/add", [OperatoriController::class, "add"]);
 $app->post("/operatori/add", [OperatoriController::class, "submit"]);
+
 // Pagina di modifica operatore
 $app->get("/operatori/{id}/edit", [OperatoriController::class, "edit"]);
 $app->post("/operatori/{id}/edit", [OperatoriController::class, "editSubmit"]);
