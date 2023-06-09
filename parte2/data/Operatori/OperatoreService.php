@@ -10,6 +10,10 @@ class OperatoreService
     {
         $operatore = new Operatore();
         $operatore->nome = $model->nome;
+        $operatore->cognome = $model->cognome;
+        $operatore->username = $model->username;
+        $operatore->mansione = $model->mansione;
+        $operatore->stato = $model->stato;
 
         $repoManager = new RepositoryManager();
         $repoManager->getRepOperatori()->save($operatore);

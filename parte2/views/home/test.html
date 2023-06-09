@@ -1,7 +1,43 @@
 {% extends "layout.html" %}
-
 {% block content %}
-{% for operatore in model %}
-<h1>{{operatore.nome}}</h1>
-{% endfor %}
+
+<div class="m-3">
+    <h2 class="text-uppercase text-center my-4">Elenco degli operatori</h2>
+    <button class="btn btn-primary mb-3"><a href="operatori/add">Aggiungi operatore</a></button>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Cognome</th>
+                <th scope="col">Mansione</th>
+                <th scope="col">Username</th>
+                <th scope="col">Stato</th>
+                <th scope="col">Modifica</th>
+                <th scope="col">Elimina</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if model is not empty %}
+                {% for operatore in model %}
+                    <tr>
+                        <th scope="row">{{ operatore.id}}</th>
+                        <td>{{ operatore.nome}}</td>
+                        <td>{{ operatore.cognome}}</td>
+                        <td>{{ operatore.mansione}}</td>
+                        <td>{{ operatore.username}}</td>
+                        <td>{{ operatore.stato}}</td>
+                        <td><a class="btn btn-primary editButton" href="operatori/{{operator.id}}/edit">Modifica</a></td>                          
+                        <td><a class="btn btn-danger deleteButton" data-id="{{operator.id}}"><strong>X</strong></a></td>
+                        
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr><td colspan="7">Nessun risultato trovato.</td></tr>
+            {% endif %}
+        </tbody>
+    </table>
+    
+</div>
+
 {% endblock %}

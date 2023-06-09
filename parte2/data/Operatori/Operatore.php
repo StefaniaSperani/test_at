@@ -22,4 +22,24 @@ class Operatore
      * @Column(type="string", name="nome")
      */
     public $nome;
+
+    /**
+     * @Column(type="string", name="cognome")
+     */
+    public $cognome;
+
+    /**
+     * @Column(type="string", name="username")
+     */
+    public $username;
+
+    /**
+     * @Column(type="string", name="mansione")
+     */
+    public $mansione;
+
+    /**
+     * @Column(type="string", name="stato")
+     */
+    public $stato;
 }
