@@ -37,9 +37,37 @@
                 Non attivo
             </label>
         </div>
-        <button type="submit" class="btn btn-primary" name="submit">Modifica</button>
+        <button type="submit" class="btn btn-primary editButton" name="submit">Modifica</button>
         <button class='btn btn-danger'><a href='operatori'>Indietro</a></button>
     </form>
 </div>
 
+{% endblock %}
+
+{% block footerScripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script>
+//EDIT
+
+$('.editButton').on('click', function(){
+    let id = $(this).data("id");
+    let url = "operatori/" + id + "/edit";
+    $.ajax({
+        url: url,
+        type: 'POST',
+        dataType: 'json',
+        success: function(response) {
+        if (response.success) {
+                alert(response.message);
+            } else {
+                alert(response.message);
+            }
+            // window.location.href = url;
+        },
+        error: function(xhr, status, error) {
+            alert('Si è verificato un errore durante la modifica:', error);
+        }
+    })
+})
+</script>
 {% endblock %}

@@ -29,7 +29,7 @@
                         <td>{{ operator.mansione}}</td>
                         <td>{{ operator.username}}</td>
                         <td>{{ operator.stato}}</td>
-                        <td><a class="btn btn-primary" href="operatori/{{operator.id}}/edit">Modifica</a></td>                          
+                        <td><a class="btn btn-primary editButton" href="operatori/{{operator.id}}/edit">Modifica</a></td>                          
                         <td><a class="btn btn-danger deleteButton" data-id="{{operator.id}}"><strong>X</strong></a></td>
                         
                     </tr>
@@ -46,12 +46,7 @@
 {% block footerScripts %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script>
-// il flusso è il seguente:
-// - clicco sul pulsante elimina
-// - con ajax chiamo un endpoint mappato con delete
-// - l'endpoint deve restituire un oggetto json con l'esito della richiesta
-// - il client, in caso di esito positivo ricarica la pagina
-
+//DELETE
 $(document).ready(function (){
     $('.deleteButton').on('click', function() {
         let id = $(this).data("id");
@@ -68,13 +63,11 @@ $(document).ready(function (){
         location.reload();
     },
     error: function(xhr, status, error) {
-        alert('Si è verificato un errore durante l\'eliminazione della risorsa:', error);
+        alert('Si è verificato un errore durante l\'eliminazione dell\'operatore', error);
     }
         });
 });
 });
-
-
 
 </script>
 

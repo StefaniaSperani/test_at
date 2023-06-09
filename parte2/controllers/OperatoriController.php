@@ -43,34 +43,34 @@ class OperatoriController
     // Funzione che serve per aggiungere gli operatori nel db
     public function submit(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
-        if ($request->getMethod() === 'POST' && $_POST['submit']) {
-            $conn = getDbConn();
-            $data = $request->getParsedBody();
 
-            $nome = $data["nome"];
-            $cognome = $data["cognome"];
-            $mansione = $data["mansione"];
-            $username = $data["username"];
-            $password = $data["password"];
-            $stato = $data["stato"];
-            $statoInt = $stato === 'true' ? 'Attivo' : 'Non attivo';
+        $conn = getDbConn();
+        $data = $request->getParsedBody();
 
-            $sql = "INSERT INTO operators (nome, cognome, mansione, username, password, stato) VALUES ('$nome', '$cognome', '$mansione', '$username', '$password', '$statoInt')";
+        $nome = $data["nome"];
+        $cognome = $data["cognome"];
+        $mansione = $data["mansione"];
+        $username = $data["username"];
+        $password = $data["password"];
+        $stato = $data["stato"];
+        $statoInt = $stato === 'true' ? 'Attivo' : 'Non attivo';
 
-            if ($conn->query($sql) === true) {
-                $response->getBody()->write('<div class="text-center text-danger fs-3 mt-3"> Operatore aggiunto con successo! </div>');
-            } else {
-                $response->getBody()->write('<div class="text-center text-danger fs-3 mt-3"> Errore durante l\'aggiunta dell\'operatore: </div>' . $conn->error);
-            }
+        $sql = "INSERT INTO operators (nome, cognome, mansione, username, password, stato) VALUES ('$nome', '$cognome', '$mansione', '$username', '$password', '$statoInt')";
 
-            // Premuto il submit vengono reindirizzati alla pagina principale(la lista degli operatori)
-            $routeParser = RouteContext::fromRequest($request)->getRouteParser();
-            $urlOperatori = $routeParser->urlFor("operatori.index");
-            return $response
-                ->withStatus(302)
-                ->withHeader("Location", $urlOperatori);
-
+        if ($conn->query($sql) === true) {
+            $response->getBody()->write('<div class="text-center text-danger fs-3 mt-3"> Operatore aggiunto con successo! </div>');
+        } else {
+            $response->getBody()->write('<div class="text-center text-danger fs-3 mt-3"> Errore durante l\'aggiunta dell\'operatore: </div>' . $conn->error);
         }
+
+        // Premuto il submit vengono reindirizzati alla pagina principale(la lista degli operatori)
+        $routeParser = RouteContext::fromRequest($request)->getRouteParser();
+        $urlOperatori = $routeParser->urlFor("operatori.index");
+        return $response
+            ->withStatus(302)
+            ->withHeader("Location", $urlOperatori);
+
+
     }
 
     // Pagina di render per la modifica dell'utente
@@ -114,7 +114,7 @@ class OperatoriController
 
         $sql = "UPDATE operators SET nome='$nome', cognome='$cognome', mansione='$mansione', stato='$statoInt' WHERE id='$id'";
 
-        $result = mysqli_query($conn, $sql);
+        // $result = mysqli_query($conn, $sql);
 
         // if ($result) {
         //     $response->getBody()->write('<div class="text-center text-danger fs-3 mt-3"> Operatore modificato con successo! </div>');
@@ -122,12 +122,22 @@ class OperatoriController
         //     $response->getBody()->write('<div class="text-center text-danger fs-3 mt-3"> Errore durante la modifica dell\'operatore: </div>' . $conn->error);
         // }
 
+        if ($conn->query($sql) === TRUE) {
+            $data = ['success' => true, 'message' => 'Modifica completata con successo.'];
+        } else {
+            $data = ['error' => true, 'message' => 'Impossibile completare la modifica.'];
+        }
+
+        $payload = json_encode($data);
         // Premuto il submit vengono reindirizzati alla pagina principale(la lista degli operatori)
         $routeParser = RouteContext::fromRequest($request)->getRouteParser();
         $urlOperatori = $routeParser->urlFor("operatori.index");
         return $response
             ->withStatus(302)
-            ->withHeader("Location", $urlOperatori);
+            ->withHeader("Location", $urlOperatori)
+            ->withHeader('Content-Type', 'application/json')
+            ->getBody()->write($payload); // Scrivi il JSON come corpo della risposta
+
 
         //}
     }
