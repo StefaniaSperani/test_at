@@ -1,13 +1,22 @@
 <?php
+function getDbParams()
+{
+    return [
+        "servername" => "localhost",
+        "serverport" => 3306,
+        "username" => "root",
+        "password" => "root",
+        "dbname" => "db_at",
+        "unixsocket" => ""
+    ];
+}
+
 function getDbConn()
 {
-    $servername = "localhost";
-    $username = "root";
-    $password = "root";
-    $dbname = "db_at";
+    $dbParams = getDbParams();
 
     // Crea una connessione
-    $conn = new mysqli($servername, $username, $password, $dbname);
+    $conn = new mysqli($dbParams["servername"], $dbParams["username"], $dbParams["password"], $dbParams["dbname"]);
     // Verifica la connessione
     if ($conn->connect_error) {
         die("Connessione al database fallita: " . $conn->connect_error);

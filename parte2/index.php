@@ -7,9 +7,7 @@ use Slim\Views\Twig;
 use Slim\Views\TwigMiddleware;
 
 
-include "config.inc.php";
-
-require __DIR__ . '/vendor/autoload.php';
+include __DIR__ . "/configs/config.inc.php";
 
 
 $app = AppFactory::create();

@@ -135,11 +135,10 @@ class OperatoriController
         return $response
             ->withStatus(302)
             ->withHeader("Location", $urlOperatori)
-            ->withHeader('Content-Type', 'application/json')
-            // ->getBody()->write($payload);
+            ->withHeader('Content-Type', 'application/json');
+        // ->getBody()->write($payload);
 
 
-        //}
     }
 
     //Funzione per cancellare l'utente

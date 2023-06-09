@@ -65,6 +65,7 @@ $('.editButton').on('click', function(){
             // window.location.href = url;
         },
         error: function(xhr, status, error) {
+            console.log(xhr.error);
             alert('Si è verificato un errore durante la modifica:', error);
         }
     })

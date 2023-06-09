@@ -1,0 +1,7 @@
+{% extends "layout.html" %}
+
+{% block content %}
+{% for operatore in model %}
+<h1>{{operatore.nome}}</h1>
+{% endfor %}
+{% endblock %}

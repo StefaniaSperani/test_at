@@ -1,6 +1,9 @@
 <?php
 namespace controllers;
 
+use data\models\OperatoreCreationModel;
+use data\Operatori\Operatore;
+use data\Operatori\OperatoreService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\Twig;
@@ -50,9 +53,23 @@ class HomeController
         }
     }
 
+    public function test(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $operatori = OperatoreService::findAll();
+
+        $view = Twig::fromRequest($request);
+        return $view->render($response, 'home/test.html', [
+            "model" => $operatori
+        ]);
+        // $response->getBody()->write("Hello world!");
+        // return $response;
+    }
+
 }
 
 
 
 $app->get("/", [HomeController::class, "index"]);
 $app->post("/", [HomeController::class, "loginPost"]);
+
+$app->get("/test", [HomeController::class, "test"]);
