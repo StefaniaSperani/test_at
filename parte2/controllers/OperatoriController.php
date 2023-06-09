@@ -136,7 +136,7 @@ class OperatoriController
             ->withStatus(302)
             ->withHeader("Location", $urlOperatori)
             ->withHeader('Content-Type', 'application/json')
-            ->getBody()->write($payload); // Scrivi il JSON come corpo della risposta
+            // ->getBody()->write($payload);
 
 
         //}
