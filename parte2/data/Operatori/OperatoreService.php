@@ -26,4 +26,5 @@ class OperatoreService
     {
         return (new RepositoryManager())->getRepOperatori()->findAll();
     }
+
 }

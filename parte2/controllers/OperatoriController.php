@@ -5,6 +5,10 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\Twig;
 use Slim\Routing\RouteContext;
+use data\models\OperatoreCreationModel;
+use data\Operatori\Operatore;
+use data\Operatori\OperatoreService;
+use data\Operatori\OperatoreRepository;
 
 class OperatoriController
 {
@@ -41,37 +45,37 @@ class OperatoriController
     }
 
     // Funzione che serve per aggiungere gli operatori nel db
-    public function submit(ServerRequestInterface $request, ResponseInterface $response, array $args)
-    {
+    // public function submit(ServerRequestInterface $request, ResponseInterface $response, array $args)
+    // {
 
-        $conn = getDbConn();
-        $data = $request->getParsedBody();
+    //     $conn = getDbConn();
+    //     $data = $request->getParsedBody();
 
-        $nome = $data["nome"];
-        $cognome = $data["cognome"];
-        $mansione = $data["mansione"];
-        $username = $data["username"];
-        $password = $data["password"];
-        $stato = $data["stato"];
-        $statoInt = $stato === 'true' ? 'Attivo' : 'Non attivo';
+    //     $nome = $data["nome"];
+    //     $cognome = $data["cognome"];
+    //     $mansione = $data["mansione"];
+    //     $username = $data["username"];
+    //     $password = $data["password"];
+    //     $stato = $data["stato"];
+    //     $statoInt = $stato === 'true' ? 'Attivo' : 'Non attivo';
 
-        $sql = "INSERT INTO operators (nome, cognome, mansione, username, password, stato) VALUES ('$nome', '$cognome', '$mansione', '$username', '$password', '$statoInt')";
+    //     $sql = "INSERT INTO operators (nome, cognome, mansione, username, password, stato) VALUES ('$nome', '$cognome', '$mansione', '$username', '$password', '$statoInt')";
 
-        if ($conn->query($sql) === true) {
-            $response->getBody()->write('<div class="text-center text-danger fs-3 mt-3"> Operatore aggiunto con successo! </div>');
-        } else {
-            $response->getBody()->write('<div class="text-center text-danger fs-3 mt-3"> Errore durante l\'aggiunta dell\'operatore: </div>' . $conn->error);
-        }
+    //     if ($conn->query($sql) === true) {
+    //         $response->getBody()->write('<div class="text-center text-danger fs-3 mt-3"> Operatore aggiunto con successo! </div>');
+    //     } else {
+    //         $response->getBody()->write('<div class="text-center text-danger fs-3 mt-3"> Errore durante l\'aggiunta dell\'operatore: </div>' . $conn->error);
+    //     }
 
-        // Premuto il submit vengono reindirizzati alla pagina principale(la lista degli operatori)
-        $routeParser = RouteContext::fromRequest($request)->getRouteParser();
-        $urlOperatori = $routeParser->urlFor("operatori.index");
-        return $response
-            ->withStatus(302)
-            ->withHeader("Location", $urlOperatori);
+    //     // Premuto il submit vengono reindirizzati alla pagina principale(la lista degli operatori)
+    //     $routeParser = RouteContext::fromRequest($request)->getRouteParser();
+    //     $urlOperatori = $routeParser->urlFor("operatori.index");
+    //     return $response
+    //         ->withStatus(302)
+    //         ->withHeader("Location", $urlOperatori);
 
 
-    }
+    // }
 
     // Pagina di render per la modifica dell'utente
     public function edit(ServerRequestInterface $request, ResponseInterface $response, array $args)
@@ -162,6 +166,34 @@ class OperatoriController
             ->withStatus(200);
     }
 
+
+
+    public function addOp(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $data = $request->getParsedBody();
+
+        $operatore = new OperatoreCreationModel();
+        $operatore->nome = $data['nome'];
+        $operatore->cognome = $data['cognome'];
+        $operatore->username = $data['username'];
+        $operatore->mansione = $data['mansione'];
+        $operatore->stato = $data['stato'] === 'true' ? 'Attivo' : 'Non attivo';
+
+        // $view = Twig::fromRequest($request);
+        // return $view->render($response, 'home/test.html', [
+        //     "model" => $operatori
+        // ]);
+
+        $operatori = OperatoreService::createOperatore($operatore);
+        $routeParser = RouteContext::fromRequest($request)->getRouteParser();
+        $urlOperatori = $routeParser->urlFor("operatori.index");
+        return $response
+            ->withStatus(302)
+            ->withHeader("Location", $urlOperatori);
+
+    }
+
+
 }
 
 
@@ -172,8 +204,12 @@ $app->get("/operatori", [OperatoriController::class, "operators"])->setName("ope
 $app->delete("/operatori/{id}", [OperatoriController::class, 'delete']);
 
 // Pagina di aggiunta operatore
+// $app->get("/operatori/add", [OperatoriController::class, "add"]);
+// // $app->post("/operatori/add", [OperatoriController::class, "submit"]);
+// $app->post("/operatori/add", [OperatoriController::class, "submit"]);
+
 $app->get("/operatori/add", [OperatoriController::class, "add"]);
-$app->post("/operatori/add", [OperatoriController::class, "submit"]);
+$app->post("/operatori/add", [OperatoriController::class, "addOp"]);
 
 // Pagina di modifica operatore
 $app->get("/operatori/{id}/edit", [OperatoriController::class, "edit"]);

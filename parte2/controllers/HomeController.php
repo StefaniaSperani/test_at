@@ -85,10 +85,17 @@ class HomeController
 
         $operatori = OperatoreService::findAll();
 
-        $view = Twig::fromRequest($request);
-        return $view->render($response, 'home/test.html', [
-            "model" => $operatori
-        ]);
+        $routeParser = RouteContext::fromRequest($request)->getRouteParser();
+        $urlOperatori = $routeParser->urlFor("operatori.index");
+        return $response
+            ->withStatus(302)
+            ->withHeader("Location", $urlOperatori);
+        ;
+
+        // $view = Twig::fromRequest($request);
+        // return $view->render($response, 'home/test.html', [
+        //     "model" => $operatori
+        // ]);
         // $view = Twig::fromRequest($request);
         // return $view->render($response, 'home/test.html', [
 
@@ -96,6 +103,7 @@ class HomeController
         // $response->getBody()->write("Hello world!");
         // return $response;
     }
+
 
 }
 

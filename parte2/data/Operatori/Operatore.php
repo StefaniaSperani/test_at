@@ -2,6 +2,7 @@
 namespace data\Operatori;
 
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\Column;
@@ -14,7 +15,8 @@ class Operatore
 {
     /**
      * @Id
-     * @Column(name="id", type="integer")
+     * @GeneratedValue
+     * @Column(type="integer", name="id")
      */
     public $id;
 
