@@ -19,6 +19,11 @@ class OperatoreRepository
         return $this->owner->getEntityManager();
     }
 
+    public function getRepoManager(): RepositoryManager
+    {
+        return $this->owner;
+    }
+
     public function findAll()
     {
         $rep = $this->getEntityManager()->getRepository($this->class);
@@ -52,4 +57,8 @@ class OperatoreRepository
     {
         $this->getEntityManager()->persist($entity);
     }
+
 }
+
+
+//insieme alla classe DTO si occupa di fare le operazioni sulla tabella(gestisce la comunciazione con il database)

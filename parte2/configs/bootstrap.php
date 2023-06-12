@@ -20,3 +20,5 @@ function autoload($className)
 }
 
 spl_autoload_register("autoload");
+
+// è utilizzato dalle classi dentro la cartella data. 

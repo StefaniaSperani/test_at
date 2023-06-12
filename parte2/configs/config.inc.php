@@ -8,3 +8,5 @@ include "database.php";
 
 include __ROOT_DIR__ . '/vendor/autoload.php';
 include __DIR__ . "/bootstrap.php";
+
+//file di configurazione dell'applicazione

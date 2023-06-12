@@ -77,3 +77,5 @@ class RepositoryManager
         $this->entityManager->flush();
     }
 }
+
+//Gestisce tutte le tabelle

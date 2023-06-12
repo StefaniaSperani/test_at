@@ -5,10 +5,9 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\Twig;
 use Slim\Routing\RouteContext;
-use data\models\OperatoreCreationModel;
+use data\models\OperatoreDataModel;
 use data\Operatori\Operatore;
 use data\Operatori\OperatoreService;
-use data\Operatori\OperatoreRepository;
 
 class OperatoriController
 {
@@ -146,33 +145,34 @@ class OperatoriController
     }
 
     //Funzione per cancellare l'utente
-    public function delete(ServerRequestInterface $request, ResponseInterface $response, array $args)
-    {
+    // public function delete(ServerRequestInterface $request, ResponseInterface $response, array $args)
+    // {
 
-        $conn = getDbConn();
-        $id = $args['id'];
-        $sql = "DELETE FROM operators WHERE id='$id'";
+    //     $conn = getDbConn();
+    //     $id = $args['id'];
+    //     $sql = "DELETE FROM operators WHERE id='$id'";
 
-        if ($conn->query($sql) === TRUE) {
-            $data = ['success' => true, 'message' => 'Eliminazione completata con successo.'];
-        } else {
-            $data = ['error' => true, 'message' => 'Impossibile completare l\'eliminazione.'];
-        }
+    //     if ($conn->query($sql) === TRUE) {
+    //         $data = ['success' => true, 'message' => 'Eliminazione completata con successo.'];
+    //     } else {
+    //         $data = ['error' => true, 'message' => 'Impossibile completare l\'eliminazione.'];
+    //     }
 
-        $payload = json_encode($data);
-        $response->getBody()->write($payload);
-        return $response
-            ->withHeader("Content-Type", "application/json")
-            ->withStatus(200);
-    }
+    //     $payload = json_encode($data);
+    //     $response->getBody()->write($payload);
+    //     return $response
+    //         ->withHeader("Content-Type", "application/json")
+    //         ->withStatus(200);
+    // }
 
 
+    //DOCTRINE
 
     public function addOp(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $data = $request->getParsedBody();
 
-        $operatore = new OperatoreCreationModel();
+        $operatore = new OperatoreDataModel();
         $operatore->nome = $data['nome'];
         $operatore->cognome = $data['cognome'];
         $operatore->username = $data['username'];
@@ -194,6 +194,54 @@ class OperatoriController
     }
 
 
+    public function editOp(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        list("id" => $idOp) = $args;
+
+        $operatore = OperatoreService::findById($idOp);
+
+        $view = Twig::fromRequest($request);
+        return $view->render($response, 'operatori/edit.html', [
+            "model" => $operatore
+        ]);
+    }
+
+    public function editOpSubmit(ServerRequestInterface $request, ResponseInterface $response, array $args)
+    {
+        list("id" => $idOp) = $args;
+        $data = $request->getParsedBody();
+
+        $operatore = new OperatoreDataModel();
+        $operatore->id = $idOp;
+        $operatore->nome = $data['nome'];
+        $operatore->cognome = $data['cognome'];
+        $operatore->mansione = $data['mansione'];
+        $operatore->stato = $data['stato'] === 'true' ? 'Attivo' : 'Non attivo';
+
+        $operatori = OperatoreService::updateOperatore($operatore);
+
+        $routeParser = RouteContext::fromRequest($request)->getRouteParser();
+        $urlOperatori = $routeParser->urlFor("operatori.index");
+        return $response
+            ->withStatus(302)
+            ->withHeader("Location", $urlOperatori);
+    }
+
+    public function deleteOp(ServerRequestInterface $request, ResponseInterface $response, array $args)
+    {
+        list("id" => $idOp) = $args;
+
+        OperatoreService::deleteOperatore($idOp);
+        $data = ['success' => true, 'message' => 'Eliminazione completata con successo.'];
+
+        $payload = json_encode($data);
+        $response->getBody()->write($payload);
+        return $response
+            ->withHeader("Content-Type", "application/json")
+            ->withStatus(200);
+    }
+
+
 }
 
 
@@ -201,16 +249,19 @@ class OperatoriController
 
 // Pagina principale con la lista degli operatori
 $app->get("/operatori", [OperatoriController::class, "operators"])->setName("operatori.index");
-$app->delete("/operatori/{id}", [OperatoriController::class, 'delete']);
+// $app->delete("/operatori/{id}", [OperatoriController::class, 'delete']);
+$app->delete("/operatori/{id}", [OperatoriController::class, 'deleteOp']);
 
 // Pagina di aggiunta operatore
 // $app->get("/operatori/add", [OperatoriController::class, "add"]);
-// // $app->post("/operatori/add", [OperatoriController::class, "submit"]);
 // $app->post("/operatori/add", [OperatoriController::class, "submit"]);
 
 $app->get("/operatori/add", [OperatoriController::class, "add"]);
 $app->post("/operatori/add", [OperatoriController::class, "addOp"]);
 
 // Pagina di modifica operatore
-$app->get("/operatori/{id}/edit", [OperatoriController::class, "edit"]);
-$app->post("/operatori/{id}/edit", [OperatoriController::class, "editSubmit"]);
+// $app->get("/operatori/{id}/edit", [OperatoriController::class, "edit"]);
+// $app->post("/operatori/{id}/edit", [OperatoriController::class, "editSubmit"]);
+
+$app->get("/operatori/{id}/edit", [OperatoriController::class, "editOp"]);
+$app->post("/operatori/{id}/edit", [OperatoriController::class, "editOpSubmit"]);

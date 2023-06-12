@@ -45,3 +45,6 @@ class Operatore
      */
     public $stato;
 }
+
+
+//classe DTO conosce la struttura della tabella

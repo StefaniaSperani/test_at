@@ -1,7 +1,7 @@
 <?php
 namespace controllers;
 
-use data\models\OperatoreCreationModel;
+use data\models\OperatoreDataModel;
 use data\Operatori\Operatore;
 use data\Operatori\OperatoreService;
 use data\models\UserLoginModel;
