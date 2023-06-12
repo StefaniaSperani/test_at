@@ -2,6 +2,7 @@
 namespace data;
 
 use data\Operatori\OperatoreRepository;
+use data\Users\UserRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
 
@@ -9,6 +10,7 @@ class RepositoryManager
 {
     private $entityManager;
 
+    // Connessione al database
     function __construct()
     {
         $path = __ROOT_DIR__ . "/data";
@@ -63,6 +65,11 @@ class RepositoryManager
     public function getRepOperatori(): OperatoreRepository
     {
         return new OperatoreRepository($this);
+    }
+
+    public function getRepUser(): UserRepository
+    {
+        return new UserRepository($this);
     }
 
     public function flushData()

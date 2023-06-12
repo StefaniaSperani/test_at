@@ -4,6 +4,9 @@ namespace controllers;
 use data\models\OperatoreCreationModel;
 use data\Operatori\Operatore;
 use data\Operatori\OperatoreService;
+use data\models\UserLoginModel;
+use data\Users\User;
+use data\Users\UserService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\Twig;
@@ -53,14 +56,43 @@ class HomeController
         }
     }
 
-    public function test(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    // public function test(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    // {
+    //     $operatori = OperatoreService::findAll();
+
+    //     $view = Twig::fromRequest($request);
+    //     return $view->render($response, 'home/test.html', [
+    //         "model" => $operatori
+    //     ]);
+    //     // $response->getBody()->write("Hello world!");
+    //     // return $response;
+    // }
+
+    public function login(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
+        $user = UserService::findAll();
+
+        $view = Twig::fromRequest($request);
+        return $view->render($response, 'home/index.html', [
+            "model" => $user
+        ]);
+        // $response->getBody()->write("Hello world!");
+        // return $response;
+    }
+
+    public function loginEnter(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+
         $operatori = OperatoreService::findAll();
 
         $view = Twig::fromRequest($request);
         return $view->render($response, 'home/test.html', [
             "model" => $operatori
         ]);
+        // $view = Twig::fromRequest($request);
+        // return $view->render($response, 'home/test.html', [
+
+        // ]);
         // $response->getBody()->write("Hello world!");
         // return $response;
     }
@@ -72,4 +104,7 @@ class HomeController
 $app->get("/", [HomeController::class, "index"]);
 $app->post("/", [HomeController::class, "loginPost"]);
 
-$app->get("/test", [HomeController::class, "test"]);
+// $app->get("/test", [HomeController::class, "test"]);
+
+$app->get("/login", [HomeController::class, "login"]);
+$app->post("/login", [HomeController::class, "loginEnter"]);
